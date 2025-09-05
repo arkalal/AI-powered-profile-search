@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI-Powered Candidate Search
 
-## Getting Started
+An AI-powered candidate profile search application built with Next.js, OpenAI, and Typesense. This application allows users to search for candidates using natural language queries, which are then parsed by AI to extract structured filters and keywords for efficient searching.
 
-First, run the development server:
+## Features
+
+- **AI-Powered Search**: Use natural language to search for candidates
+- **Real-time Parsing**: OpenAI GPT-4o parses user prompts into structured filters
+- **Interactive UI**: Animated filter chips show how AI understood your query
+- **Fast Search**: Typesense search index for quick and efficient candidate lookup
+- **S3 Integration**: Direct ETL process from S3 JSONL files to Typesense index
+- **Responsive Design**: Works on desktop and mobile devices
+
+## Tech Stack
+
+- **Frontend**: Next.js 15, React 19, SCSS Modules
+- **Backend**: Next.js API Routes
+- **Search Engine**: Typesense
+- **AI**: OpenAI GPT-4o with function calling
+- **Storage**: AWS S3 (for source data)
+- **Animations**: Framer Motion
+
+## Prerequisites
+
+- Node.js 18+ and npm
+- Typesense server (local or cloud)
+- OpenAI API key
+- AWS credentials with S3 access (for initial data import)
+
+## Setup Instructions
+
+### 1. Clone the repository and install dependencies
+
+```bash
+git clone <repository-url>
+cd profile-search
+npm install
+```
+
+### 2. Set up environment variables
+
+Copy the env.template file to .env.local and fill in your credentials:
+
+```bash
+cp env.template .env.local
+```
+
+Update the following variables in .env.local:
+
+- `TYPESENSE_HOST`, `TYPESENSE_PORT`, `TYPESENSE_PROTOCOL`, `TYPESENSE_API_KEY`: Your Typesense instance details
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`: Your AWS credentials
+
+### 3. Start Typesense (if running locally)
+
+```bash
+docker run -p 8108:8108 -v /tmp/typesense-data:/data typesense/typesense:0.25.2 --data-dir /data --api-key=xyz --enable-cors
+```
+
+### 4. Run the ETL process to import data from S3 to Typesense
+
+Make a POST request to the ETL endpoint to create the Typesense collection and import data:
+
+```bash
+curl -X POST http://localhost:3000/api/etl
+```
+
+Alternatively, navigate to `http://localhost:3000/api/etl` in your browser after starting the development server.
+
+### 5. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to access the application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Enter a natural language search query in the search box (e.g., "ServiceNow developers in Pune with Python or JavaScript, Deloitte background")
+2. Submit the search
+3. Review the "AI understood" filter chips to see how your query was parsed
+4. Browse the search results
+5. Use pagination to navigate through additional results
 
-## Learn More
+## Data Structure
 
-To learn more about Next.js, take a look at the following resources:
+The application expects candidate data in JSONL format with the following fields:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `first_name`, `last_name`: Candidate's name
+- `title`: Current job title
+- `summary`: Professional summary
+- `expertise`: Comma-separated list of skills
+- `country`, `city`: Location information
+- `functional_area`, `current_industry`: Professional categorization
+- `experience`: Array of work experiences with company names and employee counts
+- `education`: Array of education records
+- `linkedin_url`: LinkedIn profile URL
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Development
 
-## Deploy on Vercel
+To modify the application:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- UI components are in the `components/search` directory
+- API endpoints are in `src/app/api` directory
+- Search logic is in `lib/typesense.js`
+- AI parsing logic is in `lib/openai.js`
+- ETL process is in `lib/s3-to-typesense.js`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+Deploy the application on Vercel:
+
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Configure environment variables in Vercel dashboard
+4. Deploy
+
+## License
+
+MIT

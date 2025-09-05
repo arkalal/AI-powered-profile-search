@@ -1,0 +1,44 @@
+.filtersContainer {
+  width: 100%;
+  max-width: 900px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterTitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #4b5563;
+}
+
+.chipContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  background-color: #ede9fe;
+  color: #6d28d9;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.moreChip {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}

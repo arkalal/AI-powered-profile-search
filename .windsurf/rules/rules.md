@@ -19,7 +19,6 @@ trigger: always_on
 - Do not miss any points that I have explained to you. Make sure you follow and implement each and everything that I have told you in the composer.
 - ALways search the web and research if you have any confusion while fixing an error for clarity. so that you make no mistakes and do it perfectly.
 - Make sure our project is highly and completely secured, so that once launched in production, it should not get hacked or attacked by hackers or have any unethical access by bots. It must be a completely safe and secured working product for its users - VERY IMPORTANT!!
-- Make sure for npm install we will use - "npm install --legacy-peer-deps" in this project to avoid dependency conflicts.
 
 # Images to Coding the UI
 
